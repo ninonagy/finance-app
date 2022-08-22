@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html hidden>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Snapshot Testing</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="https://unpkg.com/browse/normalize.css@7.0.0/normalize.css" />
+
+  <script defer src="//unpkg.com/alpinejs"></script>
+  </script>
+
+  <script type="module">
+    import { setup } from '//cdn.skypack.dev/twind/shim'
+    setup({
+      preflight: false
+    })
+  </script>
+
+  <script src="./NodeList.js"></script>
+</head>
+
+<body>
+  <div x-data="{ open: false }">
+    <button @click="open = !open" x-text="open ? 'Close' : 'Open'"></button>
+
+    <span x-show="open" x-transition>Content...</span>
+  </div>
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      let element = document.querySelector("body > div");
+
+      const observer = new MutationObserver((mutations) => {
+        for (m of mutations) {
+          console.log(m);
+        }
+      });
+      observer.observe(element, { attributes: true, childList: true, subtree: true });
+
+      const defaultState = element.outerHTML;
+      console.log(defaultState);
+
+      // on behaviour
+      document.querySelector("body > div > button").click();
+    });
+
+        // // Default state
+        // const defaultState =
+        //     `<div x-data="{ open: false }">
+        //         <button @click="open = !open" x-text="open ? 'Close' : 'Open'">Open</button>
+        //         <span x-show="open" x-transition="" style="display: none;">Content...</span>
+        //     </div>`
+        // // Button clicked
+        // const clickedState =
+        //     `<div x-data="{ open: false }">
+        //         <button @click="open = !open" x-text="open ? 'Close' : 'Open'">Close</button>
+        //         <span x-show="open" x-transition="">Content...</span>
+        //     </div>`
+        // // Button clicked again (closed)
+        // const state =
+        //     `<div x-data="{ open: false }">
+        //         <button @click="open = !open" x-text="open ? 'Close' : 'Open'">Open</button>
+        //         <span x-show="open" x-transition="" style="display: none;">Content...</span>
+        //     </div>`
+  </script>
+
+  <template>
+
+  </template>
+</body>
+
+</html>

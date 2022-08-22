@@ -1,9 +1,9 @@
 import type { Prisma } from "@prisma/client";
-import { PrismaClient, PaymentType, ExpenseType } from "@prisma/client";
+import { PaymentType, ExpenseType } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
-
-const prisma = new PrismaClient();
+import { userFixture } from "./fixtures/user";
+import db from "~/db/prisma/client";
 
 faker.seed(1);
 
@@ -38,8 +38,8 @@ async function main() {
 
   await Promise.all(
     Array.from({ length: 500 }).map(async () => {
-      await prisma.expense.createMany({
-        data: { ...expenseFactory(), userId: 1 },
+      await db.expense.createMany({
+        data: { ...expenseFactory(), userId: userFixture.id as number },
       });
     })
   );
@@ -49,10 +49,10 @@ async function main() {
 
 main()
   .then(async () => {
-    await prisma.$disconnect();
+    await db.$disconnect();
   })
   .catch(async (e) => {
     console.error(e);
-    await prisma.$disconnect();
+    await db.$disconnect();
     process.exit(1);
   });

@@ -1,7 +1,6 @@
-import { Prisma } from "@prisma/client";
-import { json, LoaderFunction, redirect } from "@remix-run/node";
-import { Outlet, useLoaderData, useParams } from "@remix-run/react";
-import { Dayjs } from "dayjs";
+import type { LoaderFunction } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { useLoaderData, useParams } from "@remix-run/react";
 import {
   expenseAggregateInWeek,
   expenseGroupByDateInWeek,

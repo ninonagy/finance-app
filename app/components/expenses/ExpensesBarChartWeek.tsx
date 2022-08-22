@@ -20,6 +20,7 @@ export default function ExpensesBarChartWeek({
     <div>
       <div className="flex flex-row justify-between pb-4 text-sm">
         <NavLink
+          prefetch="render"
           to={`/expenses/week/${week - 1}`}
           replace
           className={`flex flex-row items-center opacity-40 hover:opacity-60 ${
@@ -41,6 +42,7 @@ export default function ExpensesBarChartWeek({
           <span>Prev</span>
         </NavLink>
         <NavLink
+          prefetch="render"
           to={`/expenses/week/${week + 1}`}
           replace
           className={`flex flex-row items-center opacity-40 hover:opacity-60 ${

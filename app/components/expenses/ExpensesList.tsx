@@ -1,4 +1,4 @@
-import { Expense } from "@prisma/client";
+import type { Expense } from "@prisma/client";
 import dayjs from "~/utils/dayjs";
 import { humanizeExpense, mapExpenseToEmoji } from "~/utils/expenses";
 

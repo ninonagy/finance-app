@@ -1,5 +1,5 @@
-import { Prisma, User } from "@prisma/client";
-import { LoaderFunction } from "@remix-run/node";
+import type { User } from "@prisma/client";
+import type { LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import Container from "~/components/Container";
 import db from "~/db/prisma/client";

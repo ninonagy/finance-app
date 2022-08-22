@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="drawer-content">
           {/* Bottom nav on mobile */}
           <div className="btm-nav z-50 w-full bg-base-200 lg:hidden">
-            <NavLink to={"/"}>
+            <NavLink prefetch="render" to={"/"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -27,7 +27,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 />
               </svg>
             </NavLink>
-            <NavLink to={"/expenses"}>
+            <NavLink prefetch="render" to={"/expenses"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -43,7 +43,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 />
               </svg>
             </NavLink>
-            <NavLink to={"/settings"}>
+            <NavLink prefetch="render" to={"/settings"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -75,7 +75,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           <ul className="menu m-0 w-80 overflow-y-auto bg-base-100 p-4 text-base-content lg:bg-base-200">
             {/* Sidebar content here */}
             <li>
-              <NavLink to={"/"}>
+              <NavLink key="inbox" to={"/"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -94,7 +94,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               </NavLink>
             </li>
             <li>
-              <NavLink to={"/expenses"}>
+              <NavLink key="expenses" to={"/expenses"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -113,7 +113,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               </NavLink>
             </li>
             <li>
-              <NavLink to={"/settings"}>
+              <NavLink key="settings" to={"/settings"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"

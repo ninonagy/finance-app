@@ -11,6 +11,7 @@
     "dev": "run-p dev:*",
     "dev:css": "npm run generate:css -- --watch",
     "dev:remix": "remix dev",
+    "seed": "npx ts-node db/seeds/users.ts && npx ts-node db/seeds/expenses.ts",
     "generate:css": "npx tailwindcss -o ./app/tailwind.css",
     "lint": "eslint .",
     "start": "remix-serve dist"

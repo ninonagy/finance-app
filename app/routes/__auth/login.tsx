@@ -1,18 +1,8 @@
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useActionData, useTransition } from "@remix-run/react";
-import {
-  createUserSession,
-  login,
-  requireUserId,
-} from "~/utils/session.server";
-
-// export const loader: LoaderFunction = async ({ request }) => {
-//   if (await requireUserId(request)) {
-//     return redirect("/");
-//   }
-//   return null;
-// };
+import { Form, Link, useActionData, useTransition } from "@remix-run/react";
+import Container from "~/components/Container";
+import { createUserSession, login } from "~/utils/session.server";
 
 export const action: ActionFunction = async ({ request }) => {
   const data: any = Object.fromEntries(await request.formData());
@@ -40,7 +30,7 @@ export default function Login() {
   const actionData = useActionData();
 
   return (
-    <>
+    <Container>
       <h1 className="text-center">😊 Login to your account</h1>
       <Form method="post" className="w-full">
         <fieldset className="mx-auto max-w-lg">
@@ -79,8 +69,13 @@ export default function Login() {
               {transition.state === "submitting" ? "Entering..." : "Login 🚀"}
             </button>
           </div>
+          <div className="divider"></div>
+          <p className="text-center">
+            Not having account yet? <Link to="/signup">Sign up</Link> here to
+            join.
+          </p>
         </fieldset>
       </Form>
-    </>
+    </Container>
   );
 }

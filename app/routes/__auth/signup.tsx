@@ -1,8 +1,9 @@
 import { ActionFunction, redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, Link, useActionData } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
+import Container from "~/components/Container";
 import db from "~/db/prisma/client";
 import { createUserSession, register } from "~/utils/session.server";
 
@@ -73,7 +74,7 @@ export default function Signup() {
   const actionData = useActionData();
 
   return (
-    <>
+    <Container>
       <h1 className="text-center">👋 Join our app</h1>
       <Form method="post" className="w-full">
         <fieldset className="mx-auto max-w-lg">
@@ -119,7 +120,7 @@ export default function Signup() {
               required
             />
           </div>
-          {actionData.errorMessage && (
+          {actionData?.errorMessage && (
             <p className="text-error">{actionData.errorMessage}</p>
           )}
           <div className="form-control pt-4">
@@ -127,8 +128,13 @@ export default function Signup() {
               Create account
             </button>
           </div>
+          <div className="divider"></div>
+          <p className="text-center">
+            Already have an account? Go to <Link to="/login">log in</Link>{" "}
+            screen.
+          </p>
         </fieldset>
       </Form>
-    </>
+    </Container>
   );
 }

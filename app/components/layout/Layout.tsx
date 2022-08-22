@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="drawer-content">
           {/* Bottom nav on mobile */}
           <div className="btm-nav z-50 w-full bg-base-200 lg:hidden">
-            <NavLink prefetch="render" to={"/"}>
+            <NavLink to={"/"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -27,7 +27,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 />
               </svg>
             </NavLink>
-            <NavLink prefetch="render" to={"/expenses"}>
+            <NavLink to={"/expenses"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -43,7 +43,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 />
               </svg>
             </NavLink>
-            <NavLink prefetch="render" to={"/settings"}>
+            <NavLink to={"/settings"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"

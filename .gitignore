@@ -112,3 +112,6 @@ dist
 
 # Local Netlify folder
 .netlify
+
+# MacOS garbage
+.DS_Store

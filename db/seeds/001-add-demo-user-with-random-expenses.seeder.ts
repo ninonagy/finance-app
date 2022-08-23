@@ -1,16 +1,15 @@
-import type { Prisma } from "@prisma/client";
+import type { Prisma, PrismaClient } from "@prisma/client";
 import { PaymentType, ExpenseType } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import { userFixture } from "./fixtures/user";
-import db from "~/db/prisma/client";
 
 faker.seed(1);
 
 const expenseFactory = () => {
   const date = faker.date.between(
     dayjs().startOf("year").toISOString(),
-    dayjs().endOf("day").toISOString()
+    dayjs().endOf("year").toISOString()
   );
 
   return {
@@ -33,26 +32,19 @@ const expenseFactory = () => {
   } as Prisma.ExpenseCreateWithoutUserInput;
 };
 
-async function main() {
-  console.log(`Start seeding ...`);
+export async function AddDemoUserWithRandomExpensesSeeder(db: PrismaClient) {
+  console.log(`Running AddDemoUserWithRandomExpensesSeeder...`);
 
-  await Promise.all(
-    Array.from({ length: 500 }).map(async () => {
-      await db.expense.createMany({
-        data: { ...expenseFactory(), userId: userFixture.id as number },
-      });
-    })
-  );
+  const user = userFixture;
+  if (!(await db.user.findUnique({ where: { email: user.email } }))) {
+    await db.user.create({ data: user });
 
-  console.log(`Seeding finished.`);
+    await Promise.all(
+      Array.from({ length: 1000 }).map(async () => {
+        await db.expense.createMany({
+          data: { ...expenseFactory(), userId: userFixture.id as number },
+        });
+      })
+    );
+  }
 }
-
-main()
-  .then(async () => {
-    await db.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await db.$disconnect();
-    process.exit(1);
-  });

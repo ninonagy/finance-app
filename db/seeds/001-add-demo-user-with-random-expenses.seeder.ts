@@ -39,12 +39,13 @@ export async function AddDemoUserWithRandomExpensesSeeder(db: PrismaClient) {
   if (!(await db.user.findUnique({ where: { email: user.email } }))) {
     await db.user.create({ data: user });
 
-    await Promise.all(
-      Array.from({ length: 1000 }).map(async () => {
-        await db.expense.createMany({
-          data: { ...expenseFactory(), userId: userFixture.id as number },
-        });
-      })
-    );
+    const expenses = Array.from({ length: 1000 }).map(() => ({
+      ...expenseFactory(),
+      userId: userFixture.id as number,
+    }));
+
+    await db.expense.createMany({
+      data: expenses,
+    });
   }
 }

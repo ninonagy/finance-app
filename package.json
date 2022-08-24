@@ -14,7 +14,8 @@
     "dev:css": "npm run generate:css -- --watch",
     "dev:remix": "remix dev",
     "generate:css": "npx tailwindcss -o ./app/tailwind.css",
-    "vercel-build": "npm run db:migrate && npm run build",
+    "vercel-build": "npm run db:migrate && npm run db:seed && npm run build",
+    "db:seed": "npx ts-node db/seed.ts",
     "db:migrate": "prisma migrate deploy"
   },
   "prisma": {

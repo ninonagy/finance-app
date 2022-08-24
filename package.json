@@ -14,9 +14,8 @@
     "dev:css": "npm run generate:css -- --watch",
     "dev:remix": "remix dev",
     "generate:css": "npx tailwindcss -o ./app/tailwind.css",
-    "vercel-build": "npm run db:generate && npm run db:migrate && npm run build",
-    "db:generate": "prisma generate --data-proxy",
-    "db:migrate": "DATABASE_URL=\"$MIGRATE_DATABASE_URL\" prisma migrate deploy"
+    "vercel-build": "npm run db:migrate && npm run build",
+    "db:migrate": "prisma migrate deploy"
   },
   "prisma": {
     "schema": "db/schema.prisma",

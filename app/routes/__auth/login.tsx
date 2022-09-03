@@ -62,7 +62,9 @@ export default function Login() {
             />
           </div>
           {actionData?.errorMessage && (
-            <p className="text-error">{actionData.errorMessage}</p>
+            <p className="text-error" data-cy="login-error">
+              {actionData.errorMessage}
+            </p>
           )}
           <div className="form-control pt-4">
             <button className="btn btn-primary" type="submit">

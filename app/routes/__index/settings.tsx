@@ -2,7 +2,7 @@ import type { User } from "@prisma/client";
 import type { LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import Container from "~/components/Container";
-import db from "~/db/prisma/client";
+import { db } from "~/db/prisma/client";
 import { requireUserId } from "~/utils/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {

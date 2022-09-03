@@ -37,7 +37,10 @@ export default function App() {
       <body>
         <Outlet />
         <ScrollRestoration />
-        <Scripts />
+        {/* Include scripts in development and production, but exclude them
+            for test enviroments to make stubbing route interceptions easier.
+        */}
+        {process.env.NODE_ENV !== "test" && <Scripts />}
         <LiveReload />
       </body>
     </html>

@@ -1,6 +1,6 @@
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import { createCookieSessionStorage, redirect, Session } from "@remix-run/node";
 import * as bcrypt from "bcryptjs";
-import db from "~/db/prisma/client";
+import { db } from "~/db/prisma/client";
 
 if (!process.env.SESSION_SECRET) {
   throw new Error("SESSION_SECRET is required environment variable!");
@@ -27,6 +27,14 @@ export async function createUserSession(userId: number, redirectTo: string) {
       "Set-Cookie": await storage.commitSession(session),
     },
   });
+}
+
+export async function getSession() {
+  return storage.getSession();
+}
+
+export async function commitSession(session: Session) {
+  return storage.commitSession(session);
 }
 
 function getUserSession(request: Request) {

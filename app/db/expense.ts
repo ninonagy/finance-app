@@ -1,17 +1,10 @@
 import type { ExpenseType, Prisma } from "@prisma/client";
 import { Dayjs } from "dayjs";
 import dayjs from "~/utils/dayjs";
-import prisma from "./prisma/client";
+import { db } from "./prisma/client";
 
 export function createExpense(expense: Prisma.ExpenseUncheckedCreateInput) {
-  return prisma.expense.create({ data: expense });
-}
-
-function getWeekDiff(week: number) {
-  let curWeek = dayjs().week();
-  let startWeek = week;
-  let weekDiff = curWeek - startWeek;
-  return weekDiff;
+  return db.expense.create({ data: expense });
 }
 
 export async function expenseAggregateInWeek(
@@ -33,23 +26,18 @@ export async function expenseAggregateInWeek(
     };
   }>
 > {
-  const weekDiff = getWeekDiff(week);
-
-  return await prisma.expense.aggregate({
+  return await db.expense.aggregate({
     _sum: { amount: true },
     _avg: { amount: true },
     where: {
       userId: userId,
       date: {
-        gte: dayjs()
-          .utc()
-          .subtract(weekDiff, "weeks")
-          .startOf("week")
-          .toISOString(),
+        gte: dayjs().utc().week(week).startOf("week").toISOString(),
         lte: dayjs()
           .utc()
-          .subtract(weekDiff, "weeks")
+          .week(week)
           .endOf("week")
+          .startOf("day")
           .toISOString(),
       },
     },
@@ -61,26 +49,23 @@ export async function expenseGroupByExpenseTypeInWeekday(
   day: number,
   userId: number
 ) {
-  const weekDiff = getWeekDiff(week);
+  // UI sends `day` as a value from 1 to 7, where 1 is Monday and 7 is Sunday
+  // (or based on locale settings). In this case, we need to convert it to 0 to 6,
+  // where 0 is Monday and 6 is Sunday, to match the dayjs API.
+  day = day - 1;
 
-  return await prisma.expense.groupBy({
+  return await db.expense.groupBy({
     by: ["expenseType"],
     _sum: { amount: true },
     _count: { expenseType: true },
     where: {
       userId: userId,
       date: {
-        gte: dayjs()
+        equals: dayjs()
           .utc()
-          .subtract(weekDiff, "weeks")
-          .add(day, "day")
+          .week(week)
+          .weekday(day)
           .startOf("day")
-          .toISOString(),
-        lte: dayjs()
-          .utc()
-          .subtract(weekDiff, "weeks")
-          .add(day, "day")
-          .endOf("day")
           .toISOString(),
       },
     },
@@ -92,22 +77,22 @@ export async function expenseGroupByExpenseTypeInWeek(
   week: number,
   userId: number
 ) {
-  const weekDiff = getWeekDiff(week);
-
-  return await prisma.expense.groupBy({
+  return await db.expense.groupBy({
     by: ["expenseType"],
     where: {
       userId: userId,
       date: {
         gte: dayjs()
           .utc()
-          .subtract(weekDiff, "weeks")
+          .week(week)
           .startOf("week")
+          .startOf("day")
           .toISOString(),
         lte: dayjs()
           .utc()
-          .subtract(weekDiff, "weeks")
+          .week(week)
           .endOf("week")
+          .startOf("day")
           .toISOString(),
       },
     },
@@ -118,9 +103,7 @@ export async function expenseGroupByExpenseTypeInWeek(
 }
 
 export async function expenseGroupByDateInWeek(week: number, userId: number) {
-  const weekDiff = getWeekDiff(week);
-
-  const groupedByDateInWeek = await prisma.expense.groupBy({
+  const groupedByDateInWeek = await db.expense.groupBy({
     by: ["date"],
     _sum: { amount: true },
     where: {
@@ -128,13 +111,15 @@ export async function expenseGroupByDateInWeek(week: number, userId: number) {
       date: {
         gte: dayjs()
           .utc()
-          .subtract(weekDiff, "weeks")
+          .week(week)
           .startOf("week")
+          .startOf("day")
           .toISOString(),
         lte: dayjs()
           .utc()
-          .subtract(weekDiff, "weeks")
+          .week(week)
           .endOf("week")
+          .startOf("day")
           .toISOString(),
       },
     },
@@ -143,10 +128,8 @@ export async function expenseGroupByDateInWeek(week: number, userId: number) {
 
   // fill missing dates: from monday to sunday
   const filledGroupedByDateInWeek = [];
-  let rangeAt: Dayjs = dayjs()
-    .utc()
-    .subtract(weekDiff, "weeks")
-    .startOf("week");
+  let rangeAt: Dayjs = dayjs().utc().week(week).startOf("week");
+
   for (let day = 0; day <= 6; day++) {
     const found = groupedByDateInWeek.find(
       // eslint-disable-next-line no-loop-func
@@ -160,7 +143,7 @@ export async function expenseGroupByDateInWeek(week: number, userId: number) {
       _sum: { amount: found ? found._sum.amount : 0 },
     });
 
-    rangeAt = rangeAt.add(1, "day");
+    rangeAt = rangeAt.weekday(day + 1);
   }
 
   return filledGroupedByDateInWeek;

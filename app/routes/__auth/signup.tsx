@@ -4,7 +4,7 @@ import { Form, Link, useActionData } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import Container from "~/components/Container";
-import db from "~/db/prisma/client";
+import { db } from "~/db/prisma/client";
 import { createUserSession, register } from "~/utils/session.server";
 
 // const SignupFormSchema = zfd.formData({
@@ -31,7 +31,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json(
       {
         fields,
-        errorMessage: "Password confirmation does not match.",
+        errorMessage: "Passwords don't match.",
       },
       { status: 400 }
     );
@@ -121,7 +121,9 @@ export default function Signup() {
             />
           </div>
           {actionData?.errorMessage && (
-            <p className="text-error">{actionData.errorMessage}</p>
+            <p className="text-error" data-cy="signup-error">
+              {actionData.errorMessage}
+            </p>
           )}
           <div className="form-control pt-4">
             <button className="btn btn-primary" type="submit">

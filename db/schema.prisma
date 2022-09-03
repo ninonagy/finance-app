@@ -36,7 +36,7 @@ enum ExpenseType {
 
 model Expense {
   id          Int         @id @default(autoincrement())
-  user        User        @relation(fields: [userId], references: [id])
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
   amount      Int         @default(0)
   note        String      @default("")

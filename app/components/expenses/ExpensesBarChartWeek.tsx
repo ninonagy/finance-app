@@ -20,11 +20,11 @@ export default function ExpensesBarChartWeek({
     <div>
       <div className="flex flex-row justify-between pb-4 text-sm">
         <NavLink
-          prefetch="render"
+          // prefetch="render"
           to={`/expenses/week/${week - 1}`}
           replace
           className={`flex flex-row items-center opacity-40 hover:opacity-60 ${
-            week > 0 ? "visible" : "invisible"
+            week > 1 ? "visible" : "invisible"
           }`}
         >
           <svg
@@ -42,7 +42,7 @@ export default function ExpensesBarChartWeek({
           <span>Prev</span>
         </NavLink>
         <NavLink
-          prefetch="render"
+          // prefetch="render"
           to={`/expenses/week/${week + 1}`}
           replace
           className={`flex flex-row items-center opacity-40 hover:opacity-60 ${
@@ -72,7 +72,7 @@ export default function ExpensesBarChartWeek({
               {data.map((item: { _sum: { amount: number } }, index: number) => (
                 <NavLink
                   key={`${week}-${index}`}
-                  to={`/expenses/week/${week}/day/${index}`}
+                  to={`/expenses/week/${week}/day/${index + 1}`}
                   className="group w-1/6 px-2 md:px-3 lg:px-4"
                 >
                   <div className="relative h-[200px] rounded bg-base-200">

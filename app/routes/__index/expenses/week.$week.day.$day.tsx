@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import { json, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { NavLink, Outlet, useLoaderData, useParams } from "@remix-run/react";
 import {
@@ -6,7 +6,6 @@ import {
   expenseGroupByExpenseTypeInWeekday,
   expenseAggregateInWeek,
 } from "~/db/expense";
-import prisma from "~/db/prisma/client";
 import ExpensesBarChartWeek from "~/components/expenses/ExpensesBarChartWeek";
 import ExpensesTab from "~/components/expenses/ExpensesTab";
 import ExpensesTable from "~/components/expenses/ExpensesTable";
@@ -22,11 +21,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const weekNum = Number.parseInt(week as string);
   const dayNum = Number.parseInt(day as string);
 
-  if (isNaN(dayNum) || dayNum < 0 || dayNum > 6) {
-    return redirect(`/expenses/week/${week}/day/0`);
+  if (isNaN(dayNum) || dayNum < 1 || dayNum > 7) {
+    return redirect(`/expenses/week/${week}/day/1`);
   }
-  if (isNaN(weekNum) || weekNum < 0 || weekNum > dayjs().week()) {
-    return redirect(`/expenses/week/${dayjs().week()}/day/0`);
+  if (isNaN(weekNum) || weekNum < 1 || weekNum > dayjs().week()) {
+    return redirect(`/expenses/week/${dayjs().week()}/day/1`);
   }
 
   const expensesGroupedByExpenseTypeInWeekday =
@@ -37,11 +36,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     userId
   );
 
-  return {
+  return json({
     expensesInWeek: expensesGroupedByDateInWeek,
     expensesInWeekday: expensesGroupedByExpenseTypeInWeekday,
     expensesAggregatedInWeek: await expenseAggregateInWeek(weekNum, userId),
-  };
+  });
 };
 
 export default function ExpensesWeekDay() {
@@ -50,9 +49,11 @@ export default function ExpensesWeekDay() {
     useLoaderData();
 
   const dayDate = dayjs()
+    .utc()
     .week(Number.parseInt(week as string))
-    .weekday(Number.parseInt(day as string))
+    .weekday(Number.parseInt(day as string) - 1)
     .toDate();
+
   const weeksAgo: number =
     (week ? Number.parseInt(week as string) : 0) - dayjs().week();
   const weeksAgoWords: string =

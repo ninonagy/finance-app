@@ -7,9 +7,14 @@ This app was created for the needs of the final thesis at the Zagreb University 
 Technology used: 
 - [Remix](https://remix.run/) - Full-stack web server
 - [DaisyUI](https://daisyui.com/) - UI component library
-- [Prisma](https://www.prisma.io/) - ORM database
+- [Prisma](https://www.prisma.io/) - Database ORM
 - [Cypress](https://www.cypress.io/) - UI testing
 - [Vitest](https://vitest.dev/) - Unit testing
+
+This is a pretty simple expense tracker app, and mainly demonstrates how to use Cypress to test UI in a full stack app with Prisma and Remix. The main functionality is creating expenses, registering, and logging in and out.
+
+- managig user sessions, and verifying them [./app/utils/session.server.ts](/app/utils/session.server.ts)
+- creating and filtering expenses [./app/db/expense.ts](/app/db/expense.ts)
 
 ## Demo account
 

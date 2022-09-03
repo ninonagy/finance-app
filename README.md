@@ -1,6 +1,6 @@
 ## Finance app ([production](https://finance-app-sigma.vercel.app/))
 
-![screely-1662184332421](https://user-images.githubusercontent.com/41818057/188257849-0f278aa2-9504-42f6-8452-60d2830e5c13.png)
+https://user-images.githubusercontent.com/41818057/188262559-7e44f586-e0d0-49b9-89ea-e9b055b92de1.mp4
 
 This app was created for the needs of the final thesis at the Zagreb University of Applied Sciences.
 

@@ -1,8 +1,8 @@
 ## TODO
 
 - [x] user session management
-- [ ] cypress tests
-  - [ ] login/register
+- [x] cypress tests
+  - [x] login/register
   - [ ] logout
   - [ ] inbox
   - [ ] expenses

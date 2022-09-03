@@ -20,7 +20,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const weekNum = Number.parseInt(week as string);
 
-  if (isNaN(weekNum) || weekNum < 0 || weekNum > dayjs().week()) {
+  if (isNaN(weekNum) || weekNum < 1 || weekNum > dayjs().week()) {
     return redirect(`/expenses/week/${dayjs().week()}`);
   }
 

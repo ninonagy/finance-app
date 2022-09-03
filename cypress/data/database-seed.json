@@ -1,0 +1,102 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "test",
+      "email": "test@test.com",
+      "password": "$2a$10$aOlANG867tfWXHBsuzJb8eUVAZIi8MB3K3AIuf3rdUD5NMQDPH52m"
+    }
+  ],
+  "expenses": [
+    {
+      "userId": 1,
+      "amount": 150,
+      "paymentType": "DEBIT_CARD",
+      "expenseType": "OTHER",
+      "date": "2022-06-02T04:06:45.742Z",
+      "time": "2022-06-02T04:06:45.742Z",
+      "note": ""
+    },
+    {
+      "userId": 1,
+      "amount": 19,
+      "paymentType": "CASH",
+      "expenseType": "OTHER",
+      "date": "2022-01-01T00:00:07.121Z",
+      "time": "2022-01-01T00:00:07.121Z",
+      "note": ""
+    },
+    {
+      "userId": 1,
+      "amount": 35,
+      "paymentType": "CASH",
+      "expenseType": "COFFEE",
+      "date": "2022-02-23T12:34:53.827Z",
+      "time": "2022-02-23T12:34:53.827Z",
+      "note": ""
+    },
+    {
+      "userId": 1,
+      "amount": 58,
+      "paymentType": "CREDIT_CARD",
+      "expenseType": "ENTERTAINMENT",
+      "date": "2022-03-09T22:38:22.022Z",
+      "time": "2022-03-09T22:38:22.022Z",
+      "note": ""
+    },
+    {
+      "userId": 1,
+      "amount": 141,
+      "paymentType": "CREDIT_CARD",
+      "expenseType": "TRAVEL",
+      "date": "2022-05-25T18:40:58.891Z",
+      "time": "2022-05-25T18:40:58.891Z",
+      "note": ""
+    },
+    {
+      "userId": 1,
+      "amount": 47,
+      "paymentType": "DEBIT_CARD",
+      "expenseType": "CLOTHING",
+      "date": "2022-06-02T23:08:38.352Z",
+      "time": "2022-06-02T23:08:38.352Z",
+      "note": ""
+    },
+    {
+      "userId": 1,
+      "amount": 66,
+      "paymentType": "DEBIT_CARD",
+      "expenseType": "EATING_OUT",
+      "date": "2022-03-16T14:00:06.124Z",
+      "time": "2022-03-16T14:00:06.124Z",
+      "note": ""
+    },
+    {
+      "userId": 1,
+      "amount": 80,
+      "paymentType": "DEBIT_CARD",
+      "expenseType": "OTHER",
+      "date": "2022-01-10T22:54:55.226Z",
+      "time": "2022-01-10T22:54:55.226Z",
+      "note": ""
+    },
+    {
+      "userId": 1,
+      "amount": 69,
+      "paymentType": "CREDIT_CARD",
+      "expenseType": "DRINKS",
+      "date": "2022-06-02T06:35:24.308Z",
+      "time": "2022-06-02T06:35:24.308Z",
+      "note": ""
+    },
+    {
+      "userId": 1,
+      "amount": 141,
+      "paymentType": "CASH",
+      "expenseType": "SUBSCRIPTION",
+      "date": "2022-02-21T04:47:22.443Z",
+      "time": "2022-02-21T04:47:22.443Z",
+      "note": ""
+    }
+  ]
+}

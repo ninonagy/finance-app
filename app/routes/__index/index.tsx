@@ -1,55 +1,53 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import prisma from "~/db/prisma/client";
 import Container from "~/components/Container";
 import ExpensesList from "~/components/expenses/ExpensesList";
+import { db } from "~/db/prisma/client";
 import dayjs from "~/utils/dayjs";
 import { requireUserId } from "~/utils/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await requireUserId(request);
 
-  const expensesToday = await prisma.expense.findMany({
+  const expensesToday = await db.expense.findMany({
     where: {
       userId,
       date: {
-        gte: dayjs().utc().startOf("day").toISOString(),
-        lte: dayjs().utc().endOf("day").toISOString(),
+        equals: dayjs().utc().startOf("day").toISOString(),
       },
     },
     orderBy: { time: "desc" },
   });
 
-  const expensesYesterday = await prisma.expense.findMany({
+  const expensesYesterday = await db.expense.findMany({
     where: {
       userId,
       date: {
-        gte: dayjs().utc().subtract(1, "day").startOf("day").toISOString(),
-        lte: dayjs().utc().subtract(1, "day").endOf("day").toISOString(),
+        equals: dayjs().utc().subtract(1, "day").startOf("day").toISOString(),
       },
     },
     orderBy: { time: "desc" },
   });
 
-  const thisWeek = await prisma.expense.aggregate({
+  const thisWeek = await db.expense.aggregate({
     _sum: { amount: true },
     where: {
       userId,
       date: {
         gte: dayjs().utc().startOf("week").toISOString(),
-        lte: dayjs().utc().endOf("week").toISOString(),
+        lte: dayjs().utc().endOf("week").startOf("day").toISOString(),
       },
     },
   });
 
-  const thisMonth = await prisma.expense.aggregate({
+  const thisMonth = await db.expense.aggregate({
     _sum: { amount: true },
     where: {
       userId,
       date: {
         gte: dayjs().utc().startOf("month").toISOString(),
-        lte: dayjs().utc().endOf("month").toISOString(),
+        lte: dayjs().utc().endOf("month").startOf("day").toISOString(),
       },
     },
   });
@@ -84,7 +82,7 @@ const HomeNavbar = () => (
 export default function Index() {
   const expenses = useLoaderData();
 
-  console.log(expenses.today);
+  // console.log(expenses.today);
 
   return (
     <>

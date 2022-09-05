@@ -67,8 +67,19 @@ export const seed = async () => {
 };
 
 export const teardown = async () => {
-  await db.$transaction([
-    db.$executeRawUnsafe(`TRUNCATE TABLE "public"."User" CASCADE;`),
-  ]);
+  // Special fast path to drop data from a postgres database.
+  // This is much faster than using prisma client to delete data.
+  // Source: https://github.com/keystonejs/keystone/blob/119f3f791ad072eef49719a2c8c8db10ed93611c/packages/adapter-prisma/lib/adapter-prisma.js#L232-L248
+  const dbSchemaName = "'public'";
+  for (const {
+    tablename,
+  } of await db.$queryRaw`SELECT tablename FROM pg_tables WHERE schemaname=${dbSchemaName}`) {
+    await db.$queryRaw`TRUNCATE TABLE ${dbSchemaName}.'${tablename}' CASCADE;`;
+  }
+  for (const {
+    relname,
+  } of await db.$queryRaw`SELECT c.relname FROM pg_class AS c JOIN pg_namespace AS n ON c.relnamespace = n.oid WHERE c.relkind='S' AND n.nspname=${dbSchemaName};`) {
+    await db.$queryRaw`ALTER SEQUENCE ${dbSchemaName}.'${relname}' RESTART WITH 1;`;
+  }
   await db.$disconnect();
 };

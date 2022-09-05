@@ -115,3 +115,7 @@ dist
 
 # MacOS garbage
 .DS_Store
+
+# Cypress
+cypress/videos
+cypress/screenshots

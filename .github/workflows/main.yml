@@ -30,6 +30,6 @@ jobs:
         run: npm run test:headless
         env:
           NODE_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
           SESSION_SECRET: secret
           PORT: 8080

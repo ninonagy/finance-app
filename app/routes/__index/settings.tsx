@@ -66,7 +66,11 @@ export default function Settings() {
           <div>
             <h2>Danger zone</h2>
             <div className="form-control pb-4">
-              <Link className="btn btn-warning w-max" to={"/logout"}>
+              <Link
+                className="btn btn-warning w-max"
+                to={"/logout"}
+                data-cy="logout-button"
+              >
                 Logout
               </Link>
             </div>

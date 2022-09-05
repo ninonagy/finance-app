@@ -81,4 +81,11 @@ describe("User sign-up and login", () => {
 
     cy.location("pathname").should("be.equal", "/");
   });
+
+  it("should logout user", () => {
+    cy.login(user.email, user.password);
+    cy.visit("/settings");
+    cy.get('[data-cy="logout-button"]').click();
+    cy.location("pathname").should("be.equal", "/login");
+  });
 });

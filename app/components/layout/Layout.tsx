@@ -1,7 +1,10 @@
-import { NavLink } from "@remix-run/react";
-import type { ReactElement, ReactNode } from "react";
+import { NavLink, useSearchParams } from "@remix-run/react";
+import type { ReactNode } from "react";
+import NewExpenseModal from "../modals/NewExpenseModal";
 
 export default function Layout({ children }: { children: ReactNode }) {
+  const [searchParams] = useSearchParams();
+
   return (
     <div className="prose max-w-none">
       <div className="drawer-mobile drawer">
@@ -67,7 +70,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </div>
 
           {/* Page content here */}
-          {children}
+          <div className="pt-12">{children}</div>
         </div>
         {/* Sidebar wrapper */}
         <div className="drawer-side">
@@ -139,6 +142,8 @@ export default function Layout({ children }: { children: ReactNode }) {
           </ul>
         </div>
       </div>
+
+      {searchParams.get("new_expense") && <NewExpenseModal />}
     </div>
   );
 }

@@ -64,8 +64,9 @@ const HomeNavbar = () => (
   <div className="navbar px-6">
     <div className="navbar-end w-full">
       <Link
-        to={"/expenses/new"}
+        to={"?new_expense=true"}
         className="modal-button btn btn-primary btn-ghost btn-circle h-16 w-16"
+        data-cy="new-expense-button"
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <path
@@ -81,8 +82,6 @@ const HomeNavbar = () => (
 
 export default function Index() {
   const expenses = useLoaderData();
-
-  // console.log(expenses.today);
 
   return (
     <>

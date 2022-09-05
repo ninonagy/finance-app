@@ -31,7 +31,6 @@
     "seed": "npx ts-node db/seed.ts"
   },
   "dependencies": {
-    "@reach/dialog": "^0.17.0",
     "@remix-run/node": "^1.6.7",
     "@remix-run/react": "^1.6.7",
     "@remix-run/serve": "^1.6.7",

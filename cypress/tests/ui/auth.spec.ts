@@ -3,8 +3,6 @@ import { user } from "../../fixtures/user.json";
 describe("User sign-up and login", () => {
   beforeEach(function () {
     cy.task("db:seed");
-
-    cy.intercept("POST", "/signup").as("signup");
   });
 
   it("should redirect unauthenticated user to login page", function () {
@@ -25,8 +23,15 @@ describe("User sign-up and login", () => {
   });
 
   it("should display login errors", function () {
-    cy.login("invalid@email.com", "invalid-password");
+    cy.login(user.email, "invalid-password");
+    cy.get('[data-cy="login-error"]')
+      .should("be.visible")
+      .and("have.class", "text-error")
+      .contains(
+        "Sorry, we can't find user with the provided credentials. Please check your email and password one more time."
+      );
 
+    cy.login("invalid@email.com", "invalid-password");
     cy.get('[data-cy="login-error"]')
       .should("be.visible")
       .and("have.class", "text-error")
